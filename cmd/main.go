@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	image, err := iconextract.ExtractIcon("/Windows/explorer.exe", 1)
+	image, err := iconextract.ExtractIcon("/Windows/explorer.exe", 0)
 	f, err := os.Create("outimage2.png")
 	if err != nil {
 		// Handle error
