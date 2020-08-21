@@ -38,19 +38,22 @@ func ExtractIcon(filepath string, index int32) (*image.RGBA, error) {
 	switch extention {
 	case "exe":
 		fmt.Print("image is EXE\n")
-		hinst := win.GetModuleHandle(nil)
+		// hinst := win.GetModuleHandle(nil)
 		var winhico win.HICON
 
-		winhico = win.ExtractIcon(hinst, stringToUTF16Ptr(filepath), index)
-
-		ico, err := walk.NewIconFromHICONForDPI(winhico, 256)
+		// winhico = win.ExtractIcon(hinst, stringToUTF16Ptr(filepath), index)
+		result := win.SHDefExtractIcon(stringToUTF16Ptr(filepath), index, 0, &winhico, nil, 0x1)
+		if win.FAILED(result) {
+			return nil, errors.New("SHDefExtractIcon Error")
+		}
+		ico, err := walk.NewIconFromHICONForDPI(winhico, 512)
 		if err != nil {
 			return nil, err
 		}
 
 		sz := walk.Size{
-			Height: 256,
-			Width:  256,
+			Height: 512,
+			Width:  512,
 		}
 		bmp, err = walk.NewBitmapFromIcon(ico, sz)
 		if err != nil {
@@ -65,8 +68,8 @@ func ExtractIcon(filepath string, index int32) (*image.RGBA, error) {
 			return nil, err
 		}
 		sz := walk.Size{
-			Height: 256,
-			Width:  256,
+			Height: 512,
+			Width:  512,
 		}
 		bmp, err = walk.NewBitmapFromIcon(ico, sz)
 		if err != nil {
