@@ -21,7 +21,7 @@ func stringToUTF16Ptr(str string) *uint16 {
 // NumberOfIcons returns the number of icons in a file
 // Windows Filepath must be the absolute file path and contain / as the directory seperators
 // example "/Windows/explorer.exe"
-func NumberOfIcons(filepath string, index int32) uint {
+func NumberOfIcons(filepath string) uint {
 	hinst := win.GetModuleHandle(nil)
 	numIcons := uint(uint64(win.ExtractIcon(hinst, stringToUTF16Ptr(filepath), int32(-1))))
 	return numIcons
